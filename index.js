@@ -34,6 +34,13 @@ async function run() {
             res.send(result)
         })
 
+        app.get(`/my-list/:email`, async (req, res) => {
+            const emailId = req.params.email
+            const query = { user_email: emailId }
+            const result = await touristsSpotCollection.find(query).toArray()
+            res.send(result)
+        })
+
         app.post("/add-tourists-spot", async (req, res) => {
             const data = req.body
             const result = await touristsSpotCollection.insertOne(data)
