@@ -29,6 +29,11 @@ async function run() {
 
         const touristsSpotCollection = client.db("touristsSpotDB").collection("touristsSpots")
 
+        app.get("/all-tourists-spot", async (req, res) => {
+            const result = await touristsSpotCollection.find().toArray()
+            res.send(result)
+        })
+
         app.post("/add-tourists-spot", async (req, res) => {
             const data = req.body
             const result = await touristsSpotCollection.insertOne(data)
