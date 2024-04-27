@@ -34,6 +34,13 @@ async function run() {
             res.send(result)
         })
 
+        app.get(`/one-tourist-spot/:id`, async (req, res) => {
+            const id = req.params.id
+            const query = { _id: new ObjectId(id) }
+            const result = await touristsSpotCollection.findOne(query)
+            res.send(result)
+        })
+
         app.get(`/my-list/:email`, async (req, res) => {
             const emailId = req.params.email
             const query = { user_email: emailId }
@@ -44,6 +51,27 @@ async function run() {
         app.post("/add-tourists-spot", async (req, res) => {
             const data = req.body
             const result = await touristsSpotCollection.insertOne(data)
+            res.send(result)
+        })
+
+        app.patch(`/update/:id`, async (req, res) => {
+            const uId = req.params.id
+            const updatedData = req.body
+            const filter = { _id: new ObjectId(uId) }
+            const updateSpot = {
+                $set: {
+                    tourists_spot_name: updatedData.tourists_spot_name,
+                    image: updatedData.image,
+                    country_name: updatedData.country_name,
+                    location: updatedData.location,
+                    short_description: updatedData.short_description,
+                    average_cost: updatedData.average_cost,
+                    seasonality: updatedData.seasonality,
+                    travel_time: updatedData.travel_time,
+                    total_visitors_per_year: updatedData.total_visitors_per_year,
+                },
+            }
+            const result = await touristsSpotCollection.updateOne(filter, updateSpot)
             res.send(result)
         })
 
