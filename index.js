@@ -54,6 +54,13 @@ async function run() {
             res.send(result)
         })
 
+        app.get(`/countries/:id`,async(req, res)=>{
+            const id = req.params.id
+            const query = {country_name: id}
+            const result = await touristsSpotCollection.find(query).toArray()
+            res.send(result)
+        })
+
         app.post("/add-tourists-spot", async (req, res) => {
             const data = req.body
             const result = await touristsSpotCollection.insertOne(data)
