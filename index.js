@@ -28,6 +28,7 @@ async function run() {
         // await client.connect()
 
         const touristsSpotCollection = client.db("touristsSpotDB").collection("touristsSpots")
+        const countriesCollection = client.db("touristsSpotDB").collection("countries")
 
         app.get("/all-tourists-spot", async (req, res) => {
             const result = await touristsSpotCollection.find().toArray()
@@ -45,6 +46,11 @@ async function run() {
             const emailId = req.params.email
             const query = { user_email: emailId }
             const result = await touristsSpotCollection.find(query).toArray()
+            res.send(result)
+        })
+
+        app.get("/countries", async (req, res) => {
+            const result = await countriesCollection.find().toArray()
             res.send(result)
         })
 
